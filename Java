@@ -1,1 +1,35 @@
+1.有Java方面大中型项目的主力开发经验，并能够主导系统架构设计；有大型高并发项目经验优先。
+2.熟练使用SSH框架，Java多线程编程及socket开发技术，掌握细节及原理。
+3.熟练掌握设计模式和UML建模知识，能够正确设计数据实体及模型间的关系，能够熟练地进行数据逻辑设计和物理设计。
+4.能够胜任核心模块的细分，设计及编码工作，能够清楚的考虑程序功能，性能及拓展性。能够胜任所负责产品的复杂问题和故障的解决。
 
+1.Java基础扎实，熟悉j2ee开发设计模式，jvm工作原理，具备一定的系统调优经验。
+2.数量掌握PL/SQL,对Oracle性能优化有丰富经验
+3.熟练掌握javascript, jquery. jqueryUI等JS框架
+4.熟悉SOA技术实现方式(SOAP、rest等技术原理)
+5.需要具备Linux/Unix shell 和Python的编程经验
+
+1.精通编程工具，熟悉eclipse开发环境及web程序开发，熟悉J2EE技术
+2.熟练使用struts2、hibernate3、spring等开源框架
+3.熟悉oracle， Mysql等至少一种数据库，并熟悉tomcat服务器，有团队管理经验优先
+
+1.Java基础扎实，熟悉io、多线程、集合等基础框架，熟悉分布式、缓存、消息、搜索等机制
+2.熟练掌握flume、kafka、hadoop、storm、spark开源软件之一
+3.至少掌握一种主流数据库，精通sql语句
+4.具有实时数据处理、数据分析、数据挖掘经验优先
+
+web前端：
+1.java/jsp/servlet开发经验，熟悉eclipse工具
+2.熟悉springMVC, springBoot及mybatis， redis, kafka等框架
+3.熟悉jquery开发
+4.熟悉Linux常用命令
+
+1.精通UML并能熟练使用UML工具进行设计表达
+2.熟悉主流JavaEE开源框架，并精通JSF，Spring，Hibernate,ibatis；
+3.熟悉SOA架构设计
+4.精通Java EE规范内各项核心技术
+5.熟悉主流数据库设计技术
+
+1.深入了解Spring
+2.熟悉webservice的开发流程(cfx, axis),对maven有了解
+3.2年以上Java开发经验
