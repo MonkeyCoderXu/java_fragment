@@ -1,0 +1,9 @@
+iText是著名的开放项目，是用于生成PDF文档的一个java类库。
+通过iText不仅可以生成PDF或rtf的文档，而且可以将XML、Html文件转化为PDF文件.
+
+依赖的jar包：
+<dependency>
+	<groupId>com.itextpdf</groupId>
+	<artifactId>itextpdf</artifactId>
+	<version>5.4.2</version>
+</dependency>

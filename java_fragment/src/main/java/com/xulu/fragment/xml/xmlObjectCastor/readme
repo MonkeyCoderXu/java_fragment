@@ -1,0 +1,17 @@
+这个包的作用是实现xml到Object对象之间的转换
+
+依赖的jar包有：
+<dependency>
+	<groupId>org.codehaus.castor</groupId>
+	<artifactId>castor</artifactId>
+	<version>1.2</version>
+</dependency>
+<dependency>            
+    <groupId>xerces</groupId>            
+     <artifactId>xercesImpl</artifactId>            
+     <version>2.8.1</version>        
+</dependency>
+
+castor这个包提供了两种方式的xml-object的转换方式：
+1.按jar默认的格式进行xml-object的转换
+2.按用户自定义的mapping.xml格式进行xml-object的转换
