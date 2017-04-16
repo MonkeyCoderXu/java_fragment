@@ -1,36 +1,55 @@
-//UDP连接
+package com.xulu.fragment.internet.client;
+
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.Inet4Address;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketException;
+
+
 public class UDPClient
 {
-	private String name;
-	
-	public UDPClient(String name)
+	private DatagramSocket socket;
+	private String contentToSend;
+	 
+	public void setContentToSend(String contentToSend) 
 	{
-		this.name = name;
+		this.contentToSend = contentToSend;
 	}
 	
-	public void connect
-	public static void main(String[] args)
+	private DatagramPacket createDatagramPacket()
 	{
-		try
+		DatagramPacket packet = new DatagramPacket(contentToSend.getBytes(), contentToSend.getBytes().length);
+		return packet;
+	}
+	
+	public UDPClient(String destIp, int destPort) throws SocketException
+	{
+		InetSocketAddress destAddress = new InetSocketAddress(destIp, destPort);
+		this.socket = new DatagramSocket(destAddress);
+	}
+	
+	public void writeToAnotherAddress() throws IOException
+	{
+		socket.send(createDatagramPacket());
+	}
+	
+	public String readFromAnotherAddress() throws IOException
+	{
+		byte[] bytes = new byte[1024];
+		DatagramPacket packet = new DatagramPacket(bytes, bytes.length);
+		socket.receive(packet);
+		return new String(bytes, 0, packet.getLength());
+	}
+	
+	
+	public void close()
+	{
+		if (socket != null)
 		{
-			InetAddress host = InetAddress.getLocalHost();
-			int port = 5678;
-			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-			while(true)
-			{
-				String line = br.readLine();
-				byte[] message = line.getBytes();
-				DatagramPacket packet = new DatagramPacket(message, message.length, host, port);
-				DatagramSocket socket = new DatagramSocket();
-				socket.send(packet);
-				socket.close();
-				if(line.equals("end")) break;
-			}
-			br.close();
-		}
-		catch(Exception e)
-		{
-			System.err.println(e.getMessage());
+			socket.close();
 		}
 	}
 }

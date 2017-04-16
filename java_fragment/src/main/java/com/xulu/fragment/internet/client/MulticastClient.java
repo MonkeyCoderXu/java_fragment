@@ -1,29 +1,51 @@
-//多播
-//多播采用和UDP类似的方式，它会使用D类IP地址和标准的UDP端口号，D类IP地址是指224.0.0.0到239.255.255.255之间的地址，不包括224.0.0.0
+package com.xulu.fragment.internet.client;
+
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.InetAddress;
+import java.net.MulticastSocket;
+import java.net.UnknownHostException;
+
 public class MulticastClient
 {
+	private MulticastSocket socket;
+	private String contentToCast;
+	//多点广播地址
+	//IP协议为多点广播提供了这批特殊的IP地址，这些IP地址的范围是224.0.0.0至239.255.255.255
+	private InetAddress multicastAddress;
 	
-	public static void main(String[] args)
+	public void setContentToCast(String contentToCast)
 	{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		try
-		{
-			InetAddress address = InetAddress.getByName("230.0.0.1");
-			int port = 5678;
-			while(true)
-			{
-				String line = br.readLine();
-				byte[] message = line.getBytes();
-				DatagramPacket packet = new DatagramPacket(message, message.length, address, port);
-				MulticastSocket multicastSocket = new MulticastSocket();
-				multicastSocket.send(packet);
-				if(line.equals("end")) break;
-			}
-			br.close();
-		}
-		catch(Exception e)
-		{
-			System.err.println(e.getMessage());
-		}
+		this.contentToCast = contentToCast;
+	}
+	
+	public void setMulticastAddress(String multicastIp) throws UnknownHostException
+	{
+		this.multicastAddress = InetAddress.getByName(multicastIp);
+	}
+	
+	private DatagramPacket createDatagramPacket()
+	{
+		DatagramPacket packet = new DatagramPacket(contentToCast.getBytes(), contentToCast.getBytes().length);
+		return packet;
+	}
+	
+	public MulticastClient(int port) throws IOException
+	{
+		socket = new MulticastSocket(port);
+		socket.joinGroup(multicastAddress);
+	}
+	
+	public void writeToAnotherAddress() throws IOException
+	{
+		socket.send(createDatagramPacket());
+	}
+	
+	public String readFromAnotherAddress() throws IOException
+	{
+		byte[] bytes = new byte[1024];
+		DatagramPacket packet = new DatagramPacket(bytes, bytes.length);
+		socket.receive(packet);
+		return new String(bytes, 0, packet.getLength());
 	}
 }

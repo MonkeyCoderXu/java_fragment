@@ -1,56 +1,70 @@
+package com.xulu.fragment.internet.server;
 
-public static void run() {  
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.ServerSocket;
+import java.nio.ByteBuffer;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
+import java.util.Iterator;
+import java.util.Set;
 
-02     Selector selector=Selector.open();  
+/**
+ * java nio的非阻塞式socket编程
+ * @author Administrator
+ *
+ */
+public class ServerThreadWithMultiAccess
+{
+	
+	public static void run() throws IOException 
+	{  
+	     Selector selector=Selector.open();  
+	     ServerSocketChannel ssc=ServerSocketChannel.open();  
+	     ssc.configureBlocking(false); //设置为非阻塞  
+	     ServerSocket ss = ssc.socket(); //用来监听连接的ServerSocket  
+	     ss.bind(new InetSocketAddress(26666)); //绑定端口  
+	     ssc.register(selector,SelectionKey.OP_ACCEPT); //注册有新连接  
+	    
+	     Set<SelectionKey> selectionKeys = selector.selectedKeys();
+	     
+	     Iterator<SelectionKey> iter=selectionKeys.iterator();  
 
-03     ServerSocketChannel ssc=ServerSocketChannel.open();  
+	         while(iter.hasNext())
+	         {  
+	        	 SelectionKey key=iter.next();  
+	        	 if((key.readyOps()&SelectionKey.OP_ACCEPT)==SelectionKey.OP_ACCEPT)  
+	        	 { 
+	        		 //如果有新的连接请求，则新建一个SocketChannel  
+	                 ServerSocketChannel nssc=(ServerSocketChannel)key.channel();  
+	                 SocketChannel sc=nssc.accept();  
 
-04     ssc.configureBlocking(false); //设置为非阻塞  
+	                 sc.configureBlocking(false); //非阻塞  
 
-05     ServerSocket ss = ssc.socket(); //用来监听连接的ServerSocket  
+	                 sc.register(selector, SelectionKey.OP_READ); //监听READ操作  
 
-06     ss.bind(new InetSocketAddress(26666)); //绑定端口  
+	             }
+	        	 else if((key.readyOps()&SelectionKey.OP_READ)==SelectionKey.OP_READ) 
+	        	 {  
 
-07     ssc.register(selector,SelectionKey.OP_ACCEPT); //注册有新连接  
+	        		 //此socket上有数据可以读入   
+	                 SocketChannel sc=(SocketChannel)key.channel();  
 
-08    
+	                 ByteBuffer echoBuffer=ByteBuffer.allocate(20);   
 
-09     Iterator<SelectionKey> iter=selectionKeys.iterator();  
+	                 echoBuffer.clear();  
 
-10         while(iter.hasNext()){  
+	                 int a=sc.read(echoBuffer); //读入数据  
 
-11             SelectionKey key=iter.next();  
+	                 echoBuffer.flip();  
 
-12             if((key.readyOps()&SelectionKey.OP_ACCEPT)==SelectionKey.OP_ACCEPT)  
+	                 //处理数据  
 
-13             { //如果有新的连接请求，则新建一个SocketChannel  
+	             }  
 
-14                 ServerSocketChannel nssc=(ServerSocketChannel)key.channel();  
+	         }  
+	 } 
+}
 
-15                 SocketChannel sc=nssc.accept();  
-
-16                 sc.configureBlocking(false); //非阻塞  
-
-17                 sc.register(selector, SelectionKey.OP_READ); //监听READ操作  
-
-18             }else if((key.readyOps()&SelectionKey.OP_READ)==SelectionKey.OP_READ) {  
-
-19         //此socket上有数据可以读入   
-
-20                 SocketChannel sc=(SocketChannel)key.channel();  
-
-21                 ByteBuffer echoBuffer=ByteBuffer.allocate(20);   
-
-22                 echoBuffer.clear();  
-
-23                 int a=sc.read(echoBuffer); //读入数据  
-
-24                 echoBuffer.flip();  
-
-25                 //处理数据  
-
-26             }  
-
-27         }  
-
-28 } 
