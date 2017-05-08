@@ -33,3 +33,5 @@ web前端：
 1.深入了解Spring
 2.熟悉webservice的开发流程(cfx, axis),对maven有了解
 3.2年以上Java开发经验
+
+java 的反射 http://www.cnblogs.com/lzq198754/p/5780331.html
